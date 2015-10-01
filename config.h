@@ -89,7 +89,7 @@ static Key keys[] = {
     { 0,                            XK_brg_down,    spawn,          {.v = cmdbrgdown }},
 
     /* Terminating dwm */
-    { MODKEY,                       XK_q,           quit,            {.ui = 0}},
+    { MODKEY,                       XK_q,           quit,            {.ui = EXIT_SUCCESS}},
     { MODKEY,                       XK_r,           quit,            {.ui = 129}},
 
     /* Layouts */

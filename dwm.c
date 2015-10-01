@@ -242,6 +242,7 @@ static int sw, sh;           /* X display screen geometry width, height */
 static int bh, blw = 0;      /* bar geometry */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
+static unsigned int exitStatus = EXIT_SUCCESS;
 static void (*handler[LASTEvent]) (XEvent *) = {
 	[ButtonPress] = buttonpress,
 	[ClientMessage] = clientmessage,
@@ -1231,6 +1232,7 @@ propertynotify(XEvent *e) {
 void
 quit(const Arg *arg) {
 	running = False;
+    exitStatus = arg->ui;
 }
 
 Monitor *
@@ -2068,5 +2070,5 @@ main(int argc, char *argv[]) {
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
-	return EXIT_SUCCESS;
+	return exitStatus;
 }
