@@ -27,9 +27,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+	/* class            instance             title       tags mask     isfloating   monitor */
+	{ "Gimp",           NULL,                NULL,       0,            True,        -1 },
+	{ "Firefox",        NULL,                NULL,       1 << 2,       False,       -1 },
+	{ "Google-chrome",  NULL,                NULL,       1 << 4,       False,       -1 },
+	{ "Mail",           NULL,                NULL,       1 << 3,       False,       -1 },
+	{ "Gnome-terminal", "WeeChat 1.2",       NULL,       1,            False,       -1 },
 };
 
 /* layout(s) */
@@ -58,8 +61,7 @@ static const Layout layouts[] = {
 #define XK_brg_down 0x1008ff03  // Brightness down
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
@@ -118,8 +120,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_KP_Add,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_KP_Subtract, incnmaster,     {.i = -1 } },
 
-	{ MODKEY|ShiftMask,             XK_Right,       setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_Left,        setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_Left,        setmfact,       {.f = -0.05} },
+	{ MODKEY|ShiftMask,             XK_Right,       setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return,      zoom,           {0} },
 
 	{ MODKEY,                       XK_Left,        focusmon,       {.i = -1 } },
