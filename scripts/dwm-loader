@@ -1,0 +1,44 @@
+#!/bin/bash
+
+declare -r DWM_BINNARY="/usr/local/bin/dwm";
+declare -r LOADER=$(readlink -f $0);
+declare -r LOADER_NAME="$(basename $LOADER)";
+declare -i DO_RELOAD=0;
+
+function logger() {
+    /bin/logger -t $NAME "$@";
+}
+
+function hupHandler() {
+    DO_RELOAD=$(( $DO_RELOAD + 1));
+}
+
+trap hupHandler SIGHUP;
+
+# Black background
+xsetroot -solid black
+# Fix for Java apps
+wmname LG3D
+
+# Launch DBus if needed
+if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
+    eval "$(dbus-launch --sh-syntax --exit-with-session)"
+fi
+
+# Start polkit agent
+#/usr/libexec/lxpolkit &
+
+# Start $HOME/.dwm-start if exists
+test -e $HOME/.dwm-start && $HOME/.dwm-start &
+
+while true; do
+    logger "Starting DWM session.";
+    $DWM_BINNARY;
+    rc=$?;
+    logger "DWM window manager exited with exit code: $rc";
+    if [[ $DO_RELOAD -gt 0 ]]; then
+        exec $LOADER;
+    fi
+    [[ $rc -ne 129 ]] && break;
+    logger "Reloading dwm window manager.";
+done

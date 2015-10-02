@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=XSession
+Exec=/usr/local/bin/dwm-loader
+TryExec=/usr/local/bin/dwm-loader
+DesktopNames=dwm
+Name=dwm
+Comment=Dynamic window manager

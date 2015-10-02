@@ -42,6 +42,8 @@ dist: clean
 	@rm -rf dwm-${VERSION}
 
 install: all
+	@echo
+	@echo ":: [ DWM core ] ::"
 	@echo installing executable file to ${DESTDIR}${PREFIX}/bin
 	@mkdir -p ${DESTDIR}${PREFIX}/bin
 	@cp -f dwm ${DESTDIR}${PREFIX}/bin
@@ -50,11 +52,21 @@ install: all
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	@sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	@chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	@echo
+	@echo ":: [ DWM session ] ::"
+	@echo installing dwm.desktop to ${DESTDIR}${XSESSIONS}
+	@mkdir -p ${DESTDIR}${XSESSIONS}
+	@cp -f config/dwm.desktop ${DESTDIR}${XSESSIONS}/dwm.desktop
+	@cp -f scripts/dwm-loader ${DESTDIR}${PREFIX}/bin
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-loader
+
 
 uninstall:
 	@echo removing executable file from ${DESTDIR}${PREFIX}/bin
 	@rm -f ${DESTDIR}${PREFIX}/bin/dwm
 	@echo removing manual page from ${DESTDIR}${MANPREFIX}/man1
 	@rm -f ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	@rm -f ${DESTDIR}${XSESSIONS}/dwm.desktop
+	@rm -f ${DESTDIR}${PREFIX}/bin/dwm-loader
 
 .PHONY: all options clean dist install uninstall
