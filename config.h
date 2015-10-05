@@ -69,35 +69,37 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]   = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]    = { "gnome-terminal", "--hide-menubar", NULL };
-static const char *lockcmd[]    = { "slock", NULL };
-static const char *cmdvolup[]   = { "amixer", "-q", "sset", "Master", "5%+", NULL };
-static const char *cmdvoldown[] = { "amixer", "-q", "sset", "Master", "5%-", NULL };
-static const char *cmdsndmute[] = { "amixer", "-q", "sset", "Master", "toggle", NULL };
-static const char *cmdbrgup[]   = { "xbacklight", "-inc", "10", NULL };
-static const char *cmdbrgdown[] = { "xbacklight", "-dec", "10", NULL };
-static const char *doercmd[]    = { "doer", NULL };
+static const char *dmenucmd[]           = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]            = { "gnome-terminal", "--hide-menubar", NULL };
+static const char *lockcmd[]            = { "slock", NULL };
+static const char *cmdvolup[]           = { "amixer", "-q", "sset", "Master", "5%+", NULL };
+static const char *cmdvoldown[]         = { "amixer", "-q", "sset", "Master", "5%-", NULL };
+static const char *cmdsndmute[]         = { "amixer", "-q", "sset", "Master", "toggle", NULL };
+static const char *cmdbrgup[]           = { "xbacklight", "-inc", "10", NULL };
+static const char *cmdbrgdown[]         = { "xbacklight", "-dec", "10", NULL };
+static const char *doercmd[]            = { "doer", NULL };
+static const char *cmdTogleKBLayout[]   = { "switch-keyboard.sh", "us,cz", "cz:qwerty", NULL };
 
 static Key keys[] = {
 	/* modifier                     key             function        argument */
 	{ ALT_MODKEY,                   XK_F2,          spawn,          {.v = dmenucmd }},
 	{ ALT_MODKEY|ControlMask,       XK_l,           spawn,          {.v = lockcmd }},
 	{ MODKEY|ControlMask,           XK_Return,      spawn,          {.v = termcmd }},
-    { ALT_MODKEY,                   XK_d,           spawn,          {.v = doercmd }},
+	{ ALT_MODKEY,                   XK_d,           spawn,          {.v = doercmd }},
+	{ ALT_MODKEY|ShiftMask,         0,              spawn,          {.v = cmdTogleKBLayout }},
 
     /* Sound */
-    { 0,                            XK_vol_up,      spawn,          {.v = cmdvolup }},
-    { 0,                            XK_vol_down,    spawn,          {.v = cmdvolup }},
-    { 0,                            XK_tog_mute,    spawn,          {.v = cmdsndmute }},
+	{ 0,                            XK_vol_up,      spawn,          {.v = cmdvolup }},
+	{ 0,                            XK_vol_down,    spawn,          {.v = cmdvoldown }},
+	{ 0,                            XK_tog_mute,    spawn,          {.v = cmdsndmute }},
 
     /* Brightness */
-    { 0,                            XK_brg_up,      spawn,          {.v = cmdbrgup }},
-    { 0,                            XK_brg_down,    spawn,          {.v = cmdbrgdown }},
+	{ 0,                            XK_brg_up,      spawn,          {.v = cmdbrgup }},
+	{ 0,                            XK_brg_down,    spawn,          {.v = cmdbrgdown }},
 
     /* Terminating dwm */
-    { MODKEY,                       XK_q,           quit,            {.ui = EXIT_SUCCESS}},
-    { MODKEY,                       XK_r,           quit,            {.ui = 129}},
+	{ MODKEY,                       XK_q,           quit,            {.ui = EXIT_SUCCESS}},
+	{ MODKEY,                       XK_r,           quit,            {.ui = 129}},
 
     /* Layouts */
 	{ MODKEY,                       XK_t,           setlayout,      {.v = &layouts[0]} },

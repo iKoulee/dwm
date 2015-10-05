@@ -58,6 +58,7 @@ install: all
 	@mkdir -p ${DESTDIR}${XSESSIONS}
 	@cp -f config/dwm.desktop ${DESTDIR}${XSESSIONS}/dwm.desktop
 	@cp -f scripts/dwm-loader ${DESTDIR}${PREFIX}/bin
+	@cp -f scripts/switch-keyboard.sh ${DESTDIR}${PREFIX}/bin
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-loader
 
 
