@@ -7,6 +7,7 @@ VERSION = 6.1
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
 XSESSIONS = /usr/share/xsessions
+SYSTEMD_SERVICES = /etc/systemd/user
 
 X11INC = /usr/X11R6/include
 X11LIB = /usr/X11R6/lib

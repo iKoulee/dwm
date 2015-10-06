@@ -1,0 +1,9 @@
+[Unit]
+Description=DWM taskbar refresh deamon
+
+[Service]
+Type=simple
+#PIDFile=/var/run/dwm-panel.pid
+#EnvironmentFile=-/etc/sysconfig/chronyd
+ExecStart=/usr/local/bin/dwm-paneld
+

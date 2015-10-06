@@ -1,0 +1,100 @@
+#!/bin/bash
+
+declare -i run=1;
+declare -r SEPARATOR=" | ";
+declare -ri EXIT_SUCCESS=0;
+declare -ri EXIT_FAILURE=1;
+
+function __max() {
+    local -r ARGS="$@";
+    local -i cur=$1;
+    shift;
+    while [[ -n "$1" ]]; do
+        [[ "$1" =~ ^-?[0-9]+$ ]] || {
+            printf "'%s' isnt integer!\n" "$1" >&2;
+            return $EXIT_FAILURE;
+        }
+        [[ $1 -gt $cur ]] && cur=$1;
+        shift;
+    done;
+    printf $cur;
+}
+
+function terminate() {
+    printf "Terminating...\n" >&2;
+    run=0;
+}
+
+function getTime() {
+    date +%T;
+}
+
+function getKBlayout() {
+    setxkbmap -display :0 -query | sed -n '
+        /layout/{
+            s/^[^:]\+:\s*//;
+            s/\n//;
+            h;
+        };
+        /variant/{
+            s/^[^:]\+\s*//;
+            s/,\|\s*//g;
+            x;
+            G;
+            s/\n//g;
+            h;
+        };
+        ${
+            x;
+            p;
+        }';
+}
+
+function getSndVolume() {
+    local -i volume;
+    local masterStatus="$(amixer -c 0 -D default get Master)";
+    if echo "$masterStatus" | \
+        grep -q -e "^\s*Front\s\+\(Left\|Right\):\s\+Playback\s\+[0-9]\+\s\+\[[0-9]\{0,3\}%\]\s\+\[off\]";
+    then
+        printf "\xF0\x9F\x94\x88 ";
+    else
+        while read channel; do
+            volume=$(
+                __max $volume "$(
+                    echo -e "$masterStatus" | sed -n "/^\s\+${channel}/s/[^\[]*\[\([0-9]\{0,3\}\)%\].*/\1/p";
+                )";
+            );
+        done < <(echo "$masterStatus" | sed -n '/Playback channels/{s/^[^:]\+://;s/^\s*//;s/-\s*/\n/g;p}');
+        printf "\xF0\x9F\x94\x8A %i%%" $volume;
+    fi;
+}
+
+function getMemoryUsage() {
+    printf "RAM: %s" $(free -m |awk '/Mem:/ { print $3"M" }');
+}
+
+function getPowerSupply() {
+    if [[ $(acpi -V | awk '/^Adapter\s+[0-9]/ {print $3}') == "on-line" ]]; then
+        printf "\xE2\x9A\xA1";
+        return $EXIT_SUCCESS;
+    fi;
+    while read battery; do
+        printf "\xF0\x9F\x94\x8B %d %% " $battery;
+    done < <(acpi -V | awk '$1 ~/^Battery$/ { if ($2 != last) { last=$2; gsub(/[%,]*/,"",$4); print $4};}');
+}
+
+function main() {
+    while [[ $run -gt 0 ]]; do
+        sleep 1;
+        ## temporary hack
+        xsetroot -display :0 -name "$(getPowerSupply)${SEPARATOR}$(getMemoryUsage)${SEPARATOR}$(getSndVolume)${SEPARATOR}$(getKBlayout)${SEPARATOR}$(getTime)";
+    done;
+}
+
+trap terminate SIGTERM;
+trap terminate SIGINT;
+
+main $@;
+
+exit $?;
+

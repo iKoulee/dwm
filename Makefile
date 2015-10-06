@@ -58,8 +58,14 @@ install: all
 	@mkdir -p ${DESTDIR}${XSESSIONS}
 	@cp -f config/dwm.desktop ${DESTDIR}${XSESSIONS}/dwm.desktop
 	@cp -f scripts/dwm-loader ${DESTDIR}${PREFIX}/bin
-	@cp -f scripts/switch-keyboard.sh ${DESTDIR}${PREFIX}/bin
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-loader
+	@echo
+	@echo ":: [ DWM script set ] ::"
+	@echo installing scripts to '${DESTDIR}${PREFIX}/bin'
+	@cp -f scripts/switch-keyboard.sh ${DESTDIR}${PREFIX}/bin
+	@cp -f config/dwm-panel.service ${DESTDIR}${SYSTEMD_SERVICES}/dwm-panel.service
+	@cp -f scripts/dwm-paneld ${DESTDIR}${PREFIX}/bin/dwm-paneld
+
 
 
 uninstall:
@@ -69,5 +75,7 @@ uninstall:
 	@rm -f ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	@rm -f ${DESTDIR}${XSESSIONS}/dwm.desktop
 	@rm -f ${DESTDIR}${PREFIX}/bin/dwm-loader
+	@rm -f ${DESTDIR}${PREFIX}/bin/switch-keyboard.sh
+	@rm -f ${DESTDIR}${SYSTEMD_SERVICES}/dwm-panel.service
 
 .PHONY: all options clean dist install uninstall

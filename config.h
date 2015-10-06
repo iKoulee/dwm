@@ -7,17 +7,22 @@ static const char *fonts[] = {
     "VL Gothic:size=10.5",
     "WenQuanYi Micro Hei:size=10.5",
 };
-static const char dmenufont[] = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
-static const char normbordercolor[] = "#444444";
-static const char normbgcolor[]     = "#222222";
-static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "#005577";
-static const char selbgcolor[]      = "#005577";
-static const char selfgcolor[]      = "#eeeeee";
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const Bool showbar           = True;     /* False means no bar */
-static const Bool topbar            = True;     /* False means bottom bar */
+static const char dmenufont[]				= "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+static const char normbordercolor[]			= "#444444";
+static const char normbgcolor[]				= "#222222";
+static const char normfgcolor[]				= "#bbbbbb";
+static const char selbordercolor[]			= "#005577";
+static const char selbgcolor[]				= "#005577";
+static const char selfgcolor[]				= "#eeeeee";
+static const unsigned int borderpx			= 2;        /* border pixel of windows */
+static const unsigned int snap				= 32;       /* snap pixel */
+static const Bool showbar					= True;     /* False means no bar */
+static const Bool topbar					= True;     /* False means bottom bar */
+static const unsigned int systraypinning	= 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayspacing	= 2;   /* systray spacing */
+static const Bool systraypinningfailfirst	= True;   /* True: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const Bool showsystray				= True;     /* False means no systray */
+
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -59,6 +64,7 @@ static const Layout layouts[] = {
 #define XK_tog_mute 0x1008ff12  // Toggle mute key
 #define XK_brg_up   0x1008ff02  // Brightness up
 #define XK_brg_down 0x1008ff03  // Brightness down
+#define ShiftRls 0xffe1
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      tag,            {.ui = 1 << TAG} }, \
@@ -78,7 +84,7 @@ static const char *cmdsndmute[]         = { "amixer", "-q", "sset", "Master", "t
 static const char *cmdbrgup[]           = { "xbacklight", "-inc", "10", NULL };
 static const char *cmdbrgdown[]         = { "xbacklight", "-dec", "10", NULL };
 static const char *doercmd[]            = { "doer", NULL };
-static const char *cmdTogleKBLayout[]   = { "switch-keyboard.sh", "us,cz", "cz:qwerty", NULL };
+static const char *cmdTogleKBLayout[]   = { "switch-keyboard.sh", "us,cz", "cz:qwerty_bksl", NULL };
 
 static Key keys[] = {
 	/* modifier                     key             function        argument */
@@ -86,7 +92,7 @@ static Key keys[] = {
 	{ ALT_MODKEY|ControlMask,       XK_l,           spawn,          {.v = lockcmd }},
 	{ MODKEY|ControlMask,           XK_Return,      spawn,          {.v = termcmd }},
 	{ ALT_MODKEY,                   XK_d,           spawn,          {.v = doercmd }},
-	{ ALT_MODKEY|ShiftMask,         0,              spawn,          {.v = cmdTogleKBLayout }},
+	{ ALT_MODKEY,                   ShiftRls,       spawn,          {.v = cmdTogleKBLayout }},
 
     /* Sound */
 	{ 0,                            XK_vol_up,      spawn,          {.v = cmdvolup }},
