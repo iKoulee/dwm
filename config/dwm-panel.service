@@ -1,6 +1,9 @@
 [Unit]
 Description=DWM taskbar refresh deamon
 
+[Install]
+WantedBy=default.target
+
 [Service]
 Type=simple
 #PIDFile=/var/run/dwm-panel.pid
