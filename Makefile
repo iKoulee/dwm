@@ -57,13 +57,14 @@ install: all
 	@echo installing dwm.desktop to ${DESTDIR}${XSESSIONS}
 	@mkdir -p ${DESTDIR}${XSESSIONS}
 	@cp -f config/dwm.desktop ${DESTDIR}${XSESSIONS}/dwm.desktop
-	@cp -f scripts/dwm-loader ${DESTDIR}${PREFIX}/bin
-	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-loader
-	@echo
+		@echo
 	@echo ":: [ DWM script set ] ::"
 	@echo installing scripts to '${DESTDIR}${PREFIX}/bin'
+	@cp -f scripts/dwm-loader ${DESTDIR}${PREFIX}/bin
+	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm-loader
 	@cp -f scripts/switch-keyboard.sh ${DESTDIR}${PREFIX}/bin
 	@cp -f config/dwm-panel.service ${DESTDIR}${SYSTEMD_SERVICES}/dwm-panel.service
+	@cp -f config/notificationd.service ${DESTDIR}${SYSTEMD_SERVICES}/notificationd.service
 	@cp -f scripts/dwm-paneld ${DESTDIR}${PREFIX}/bin/dwm-paneld
 
 
@@ -77,5 +78,7 @@ uninstall:
 	@rm -f ${DESTDIR}${PREFIX}/bin/dwm-loader
 	@rm -f ${DESTDIR}${PREFIX}/bin/switch-keyboard.sh
 	@rm -f ${DESTDIR}${SYSTEMD_SERVICES}/dwm-panel.service
+	@rm -f ${DESTDIR}${SYSTEMD_SERVICES}/notificationd.service
+	@rm -f ${DESTDIR}${PREFIX}/bin/dwm-paneld
 
 .PHONY: all options clean dist install uninstall
