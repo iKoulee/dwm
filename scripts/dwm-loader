@@ -4,9 +4,10 @@ declare -r DWM_BINNARY="/usr/local/bin/dwm";
 declare -r LOADER=$(readlink -f $0);
 declare -r LOADER_NAME="$(basename $LOADER)";
 declare -i DO_RELOAD=0;
+declare -ri LOOP_TRESHOLD=5;
 
 function logger() {
-    /bin/logger -t $NAME "$@";
+    /bin/logger -t ${LOADER_NAME} "$@";
 }
 
 function hupHandler() {
@@ -29,11 +30,30 @@ fi
 #/usr/libexec/lxpolkit &
 
 # Start $HOME/.dwm-start if exists
-test -e $HOME/.dwm-start && $HOME/.dwm-start &
+if test -e $HOME/.dwm-start; then
+    while read command; do
+        binnary="$(echo "$command" | cut -d ' ' -f 1)"
+        if [[ -x "$binnary" ]]; then
+            eval "$command" || logger "Command '$command' failed to start.";
+        else
+            logger "Cannot process '$command', binnary '$binnary' doesn't exist or isnt executable."
+        fi
+    done < $HOME/.dwm-start
+fi
 
 while true; do
+    if [[ -z "$lastLoop" ]]; then
+        lastLoop=$(date +%s);
+    else
+        if [[ $(( $(date +%s) - $lastLoop )) -le ${LOOP_TRESHOLD} ]]; then
+            logger "Reload loop detected quitting."
+            break;
+        fi
+    fi
     logger "Starting DWM session.";
     $DWM_BINNARY;
+#    dwmPID=$!;
+#    wait $dwmPID;
     rc=$?;
     logger "DWM window manager exited with exit code: $rc";
     if [[ $DO_RELOAD -gt 0 ]]; then
