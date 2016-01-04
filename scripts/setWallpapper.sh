@@ -44,6 +44,7 @@ function getImage() {
         local image="$(ls $imageDir | sort -R | tail -1)";
         printf "%s/%s" ${imageDir%/} ${image}
     fi
+    return $iC
 }
 
 function :() {
@@ -87,7 +88,8 @@ declare -i iC=-1;
 ## prepare canvas
 convert -size ${resolution} xc:black /tmp/wallpaper.png
 for dName in ${!display[@]}; do
-    image="$(getImage)"
+    image=$(getImage);
+    iC=$?
     convert "${image}" -resize "$(getSize ${display[$dName]})$(: ${display[$dName]} ${image})" /tmp/tmp_${dName}.png
     mv /tmp/wallpaper.png /tmp/tmp_wall.png
     convert /tmp/tmp_wall.png -draw "image over $(getOffset ${display[$dName]} "/tmp/tmp_${dName}.png"),0,0 '/tmp/tmp_${dName}.png'" /tmp/wallpaper.png
