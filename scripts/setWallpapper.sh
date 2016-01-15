@@ -44,13 +44,13 @@ function getImage() {
     else
         imageDir="${imageDir%/}"
         if [[ -d "${imageDir}/${wanted}" ]]; then
-            local image="$(ls "${imageDir}/${wanted}" | sort -R | tail -1)";
+            local image="$(find -P "${imageDir}/${wanted}" -type f | sort -R | tail -1)";
         else
-            local image="$(ls $imageDir | sort -R | tail -1)";
+            local image="$(find -P $imageDir -type -f | sort -R | tail -1)";
             local wanted="";
         fi
-#printf "Picking image: %s/%s\n" "${imageDir%/}/${wanted%/}" "${image}" >&2;
-        printf "%s/%s" "${imageDir}/${wanted}" "${image}"
+        printf "%s" "${image}"
+        printf "Picking: '%s'\n" "${image}" >&2;
     fi
     return $iC
 }
