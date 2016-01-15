@@ -33,6 +33,7 @@ function help() {
 }
 
 function getImage() {
+    local wanted="${1%[+-][[:digit:]]*[+-][[:digit:]]*}"
     if [[ -z $imageDir ]]; then
         if [[ -n ${files[$(($iC+1))]} ]]; then
             iC=$(($iC+1));
@@ -41,8 +42,15 @@ function getImage() {
             echo ${files[$iC]};
         fi;
     else
-        local image="$(ls $imageDir | sort -R | tail -1)";
-        printf "%s/%s" ${imageDir%/} ${image}
+        imageDir="${imageDir%/}"
+        if [[ -d "${imageDir}/${wanted}" ]]; then
+            local image="$(ls "${imageDir}/${wanted}" | sort -R | tail -1)";
+        else
+            local image="$(ls $imageDir | sort -R | tail -1)";
+            local wanted="";
+        fi
+#printf "Picking image: %s/%s\n" "${imageDir%/}/${wanted%/}" "${image}" >&2;
+        printf "%s/%s" "${imageDir}/${wanted}" "${image}"
     fi
     return $iC
 }
@@ -88,7 +96,7 @@ declare -i iC=-1;
 ## prepare canvas
 convert -size ${resolution} xc:black /tmp/wallpaper.png
 for dName in ${!display[@]}; do
-    image=$(getImage);
+    image=$(getImage ${display[$dName]});
     iC=$?
     convert "${image}" -resize "$(getSize ${display[$dName]})$(: ${display[$dName]} ${image})" /tmp/tmp_${dName}.png
     mv /tmp/wallpaper.png /tmp/tmp_wall.png
