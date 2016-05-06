@@ -18,7 +18,7 @@ static const unsigned int borderpx			= 2;        /* border pixel of windows */
 static const unsigned int snap				= 32;       /* snap pixel */
 static const Bool showbar					= True;     /* False means no bar */
 static const Bool topbar					= True;     /* False means bottom bar */
-static const unsigned int systraypinning	= 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systraypinning	= 1;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing	= 2;   /* systray spacing */
 static const Bool systraypinningfailfirst	= True;   /* True: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const Bool showsystray				= True;     /* False means no systray */
@@ -43,7 +43,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster      = 1;    /* number of clients in master area */
-static const Bool resizehints = True; /* True means respect size hints in tiled resizals */
+static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
 
 #include "fibonacci.c"
 static const Layout layouts[] = {
