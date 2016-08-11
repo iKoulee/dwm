@@ -76,7 +76,8 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]           = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]            = { "gnome-terminal", "--hide-menubar", NULL };
+//static const char *termcmd[]            = { "gnome-terminal", "--hide-menubar", NULL };
+static const char *termcmd[]            = { "terminator", "-b", NULL };
 static const char *lockcmd[]            = { "slock", NULL };
 static const char *cmdvolup[]           = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *cmdvoldown[]         = { "amixer", "-q", "sset", "Master", "5%-", NULL };
