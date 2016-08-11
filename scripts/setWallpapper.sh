@@ -69,10 +69,10 @@ function :() {
     fi
 }
 
-
 primary="$(xrandr -q | awk '/primary/{print $1}')";
 resolution="$(xrandr -q | sed -n "/^Screen ${DISPLAY#:}:/s/.*current\s\([0-9]\+\)\sx\s\([0-9]\+\).*/\1x\2/p")";
-eval "$(xrandr -q | sed -n '/\bconnected\b/s/^\([A-Z][A-Z0-9]\+\)\s\+\(connected\|connected primary\)\s\([0-9x+]\+\).*/display["\1"]="\3";/p;1i \declare -A display;';)"
+#eval "$(xrandr -q | sed -n '/\bconnected\b/s/^\([A-Z][A-Z0-9]\+\)\s\+\(connected\|connected primary\)\s\([0-9x+]\+\).*/display["\1"]="\3";/p;1i \declare -A display;';)"
+eval "$(xrandr --listactivemonitors | sed -n '/^\s*[0-9]\+:/s%.*\s\+\([0-9]\+\)/[0-9]\+x\([0-9]\+\)/[0-9]\+\([0-9\-+]\+\)\s\+\([^\s]\+\)%display["\4"]="\1x\2\3"%p;1i \declare -A display;')"
 
 if [[ -z "$1" ]]; then
     help;
@@ -91,7 +91,6 @@ if [[ -z $imageDir ]] && [[ -z ${files[@]} ]]; then
 fi
 
 declare -i iC=-1;
-
 
 ## prepare canvas
 convert -size ${resolution} xc:black /tmp/wallpaper.png
