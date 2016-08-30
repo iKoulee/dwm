@@ -129,14 +129,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_KP_Add,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_KP_Subtract, incnmaster,     {.i = -1 } },
 
-	{ MODKEY|ShiftMask,             XK_Left,        setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_Right,       setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_Right,       setmfact,       {.f = -0.05} },
+	{ MODKEY|ShiftMask,             XK_Left,        setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return,      zoom,           {0} },
 
-	{ MODKEY,                       XK_Left,        focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_Right,       focusmon,       {.i = +1 } },
-	{ MODKEY|ControlMask,           XK_Left,        tagmon,         {.i = -1 } },
-	{ MODKEY|ControlMask,           XK_Right,       tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_Right,       focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_Left,        focusmon,       {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_Right,       tagmon,         {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_Left,	    tagmon,         {.i = +1 } },
 
 
 	{ MODKEY,                       XK_Tab,    view,           {0} },
