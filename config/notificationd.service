@@ -1,0 +1,7 @@
+[Unit]
+Description=Notification daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/notification-daemon
+
