@@ -1,6 +1,9 @@
 [Unit]
 Description=Notification daemon
 
+[Install]
+WantedBy=default.target
+
 [Service]
 Type=simple
 ExecStart=/usr/libexec/notification-daemon
