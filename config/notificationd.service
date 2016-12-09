@@ -2,7 +2,7 @@
 Description=Notification daemon
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 
 [Service]
 Type=simple
