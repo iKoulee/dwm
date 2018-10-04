@@ -67,6 +67,7 @@ install: all
 	@cp -f config/notificationd.service ${DESTDIR}${SYSTEMD_SERVICES}/notificationd.service
 	@cp -f scripts/dwm-paneld ${DESTDIR}${PREFIX}/bin/dwm-paneld
 	@cp -f scripts/setWallpapper.sh ${DESTDIR}${PREFIX}/bin/setWallpapper.sh
+	@cp -f scripts/xvim ${DESTDIR}${PREFIX}/bin/xvim
 
 
 
@@ -82,5 +83,6 @@ uninstall:
 	@rm -f ${DESTDIR}${SYSTEMD_SERVICES}/notificationd.service
 	@rm -f ${DESTDIR}${PREFIX}/bin/dwm-paneld
 	@rm -f ${DESTDIR}${PREFIX}/bin/setWallpapper.sh
+	@rm -f ${DESTDIR}${PREFIX}/bin/xvim
 
 .PHONY: all options clean dist install uninstall

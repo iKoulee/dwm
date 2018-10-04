@@ -20,6 +20,13 @@ function __max() {
     printf $cur;
 }
 
+function getVPNStat() {
+    for vpn in $(nmcli connection show --active | awk '/vpn/{print $1}'); do
+        local gw=$(nmcli connection show udp.sc9vpn apath | awk '/IP4.GATEWAY:/{print $2}')
+        printf "\xF0\x9F\x94\x92"
+    done
+}
+
 function terminate() {
     printf "Terminating...\n" >&2;
     run=0;
@@ -87,7 +94,7 @@ function main() {
     while [[ $run -gt 0 ]]; do
         sleep 1;
         ## temporary hack
-        xsetroot -display :0 -name "$(getPowerSupply)${SEPARATOR}$(getMemoryUsage)${SEPARATOR}$(getSndVolume)${SEPARATOR}$(getKBlayout)${SEPARATOR}$(getTime)";
+        xsetroot -display :0 -name "$(getVPNStat)${SEPARATOR}$(getMemoryUsage)${SEPARATOR}$(getSndVolume)${SEPARATOR}$(getKBlayout)${SEPARATOR}$(getTime)";
     done;
 }
 

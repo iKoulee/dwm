@@ -34,9 +34,9 @@ static const Rule rules[] = {
 	 */
 	/* class            instance             title       tags mask     isfloating   monitor */
 	{ "Gimp",           NULL,                NULL,       0,            True,        -1 },
-	{ "Firefox",        NULL,                NULL,       1 << 1,       False,       -1 },
-	{ "Google-chrome",  NULL,                NULL,       1 << 1,       False,       -1 },
-	{ "Mail",           NULL,                NULL,       1 << 2,       False,       -1 },
+//	{ "Firefox",        NULL,                NULL,       1 << 1,       False,       -1 },
+//	{ "Google-chrome",  NULL,                NULL,       1 << 1,       False,       -1 },
+//	{ "Mail",           NULL,                NULL,       1 << 2,       False,       -1 },
 	{ "Gnome-terminal", "WeeChat 1.2",       NULL,       1,            False,       -1 },
 };
 
@@ -78,21 +78,21 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[]           = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 //static const char *termcmd[]            = { "gnome-terminal", "--hide-menubar", NULL };
 static const char *termcmd[]            = { "terminator", "-b", NULL };
-static const char *lockcmd[]            = { "slock", NULL };
+static const char *lockcmd[]            = { "/usr/local/bin/lockLogger.py", NULL };
 static const char *cmdvolup[]           = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *cmdvoldown[]         = { "amixer", "-q", "sset", "Master", "5%-", NULL };
 static const char *cmdsndmute[]         = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *cmdbrgup[]           = { "xbacklight", "-inc", "10", NULL };
 static const char *cmdbrgdown[]         = { "xbacklight", "-dec", "10", NULL };
-static const char *doercmd[]            = { "doer", NULL };
 static const char *cmdTogleKBLayout[]   = { "switch-keyboard.sh", "us,cz", "cz:qwerty_bksl", NULL };
+static const char *clipMngr[]			= { "/usr/bin/diodon" };
 
 static Key keys[] = {
 	/* modifier                     key             function        argument */
 	{ ALT_MODKEY,                   XK_F2,          spawn,          {.v = dmenucmd }},
 	{ ALT_MODKEY|ControlMask,       XK_l,           spawn,          {.v = lockcmd }},
 	{ MODKEY|ControlMask,           XK_Return,      spawn,          {.v = termcmd }},
-	{ ALT_MODKEY,                   XK_d,           spawn,          {.v = doercmd }},
+	{ MODKEY,                       XK_d,           spawn,          {.v = clipMngr }},
 	{ ALT_MODKEY,                   ShiftRls,       spawn,          {.v = cmdTogleKBLayout }},
 
     /* Sound */
@@ -113,7 +113,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,           setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,           setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_s,           setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_d,           setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_S,           setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_c,           setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_space,       setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,       togglefloating, {0} },
